@@ -11,6 +11,9 @@ az_count            = 2
 az1                 = "use1a"
 az2                 = "use1b"
 
+name_prefix = "aderona-dev"
+
+
 tags = {
   Project     = "km"
   Environment = "dev"
@@ -35,7 +38,7 @@ private_subnet_cidrs = [
 # ---------------------------------------
 # EC2 Bastion / Admin (if used)
 # ---------------------------------------
-instance_type        = "t3.micro"
+instance_type        = "t3.large"
 ssh_public_key       = "~/.ssh/id_rsa.pub"
 ec2_admin_username   = "ec2-user"
 admin_password       = "DevSecurePassword123!"
@@ -43,12 +46,18 @@ admin_password       = "DevSecurePassword123!"
 # ---------------------------------------
 # EKS Cluster
 # ---------------------------------------
-cluster_version                = "1.34"
-eks_node_instance_type         = "t3.small"
-eks_node_min_size              = 1
-eks_node_max_size              = 3
+cluster_version                = "1.30"
+eks_node_instance_type         = "t3.medium"
+eks_node_min_size              = 2
+eks_node_max_size              = 4
 eks_node_desired_size          = 2
 eks_disk_size                  = 30
+
+# ---------------------------------------
+# EKS Cluster Name
+# ---------------------------------------
+cluster_name = "km-dev-cluster"
+
 
 # Security group will be created by module, no manual values needed
 
@@ -70,7 +79,7 @@ aurora_serverless_v2_scaling_max = 4
 
 # Used by module to create secure param
 db_master_password_ssm_key = "/km/dev/db/master_password"
-
-#EKS
-cluster_name="eks"
-name_prefix="km"
+db_master_username_ssm_key = "/km/dev/db/master_username"
+db_endpoint_ssm_key        = "/km/dev/db/endpoint"
+db_readonly_user_ssm_key   = "/km/dev/db/readonly_user"
+db_readonly_password_ssm_key = "/km/dev/db/readonly_password"

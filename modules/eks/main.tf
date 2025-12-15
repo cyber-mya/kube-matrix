@@ -163,4 +163,22 @@ resource "aws_iam_openid_connect_provider" "cluster" {
   tags = var.tags
 }
 
+resource "aws_iam_policy" "ssm_access" {
+  name        = "km-dev-ssm-access"
+  description = "Allow access to SSM parameters for km-dev project"
 
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:GetParametersByPath"
+        ]
+        Resource = "arn:aws:ssm:*:*:parameter/km-dev/*"
+      }
+    ]
+  })
+}
